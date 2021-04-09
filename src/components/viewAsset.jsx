@@ -7,6 +7,7 @@ import { data as d1, columns as c1 } from "../sample/assets";
 import { data as d2, columns as c2 } from "../sample/pm";
 import Table from "./common/table";
 import { NavLink } from "react-router-dom";
+import QRCode from "qrcode.react";
 
 class ViewAsset extends Component {
   c1Data = [
@@ -58,6 +59,7 @@ class ViewAsset extends Component {
       (asset) => asset.parent_asset_id === asset_id
     );
     const pmData = assetsPM.filter((pm) => pm.asset_id === asset_id);
+
     return (
       <Fragment>
         <TitleBar icon="barcode" title={`Asset - ${asset_id}`}></TitleBar>
@@ -103,7 +105,14 @@ class ViewAsset extends Component {
                   </tr>
                 </table>
               </Col>
-              <Col md={6}></Col>
+              <Col md={6} className="">
+                <div className="float-right">
+                  <h3 className="m-b-sm text-success">QR Code</h3>
+                  <QRCode
+                    value={`http://localhost:3000/viewAsset/${asset_id}`}
+                  />
+                </div>
+              </Col>
             </Row>
           </BoxedContent>
           <BoxedContent title="Child Assets">

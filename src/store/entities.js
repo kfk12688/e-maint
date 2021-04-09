@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import assetReducer from "./assets";
+import assetsReducer from "./assets";
 
 export default combineReducers({
-  assets: assetReducer,
+  assets: assetsReducer,
 });

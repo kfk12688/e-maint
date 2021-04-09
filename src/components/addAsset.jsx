@@ -4,13 +4,11 @@ import TitleBar from "./common/titleBar";
 import FormInput from "./common/formInput";
 import PageWrapper from "./common/pageWrapper";
 import FormSelect from "./common/formSelect";
-import StoreContext from "../context/storeContext";
-// import { store as configureStore } from "../store/configureStore";
-import { assetsAdded } from "../store/assets";
+import configureStore from "../store/configureStore";
+import { addAsset } from "../store/assets";
 
 class AddAsset extends Component {
-  static contextType = StoreContext;
-  store = this.context;
+  store = configureStore();
   state = {
     asset: {
       asset_id: "",
@@ -30,8 +28,8 @@ class AddAsset extends Component {
   componentDidMount() {}
 
   handleOnSave = (e) => {
-    this.store.dispatch(assetsAdded({ asset: this.state.asset }));
-    console.log(this.store.getState());
+    this.store.dispatch(addAsset({ asset: this.state.asset }));
+
     e.preventDefault();
   };
 

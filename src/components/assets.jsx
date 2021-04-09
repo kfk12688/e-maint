@@ -1,6 +1,7 @@
 import axios from "axios";
 import Table from "./common/table";
 import TitleBar from "./common/titleBar";
+import ModalComp from "./common/modalComp";
 import { NavLink } from "react-router-dom";
 import PageWrapper from "./common/pageWrapper";
 import React, { Component, Fragment } from "react";
@@ -8,8 +9,11 @@ import InputComp from "../components/common/inputComp";
 import StarButton from "../components/common/starButton";
 import { data as datas, columns } from "../sample/assets";
 import { Row, Dropdown, DropdownButton, Button } from "react-bootstrap";
+import configureStore from "../store/configureStore";
+import { loadAssets } from "../store/assets";
 
 class Assets extends Component {
+  store = configureStore();
   columnData = [
     {
       key: "Action Button",
@@ -62,7 +66,12 @@ class Assets extends Component {
   state = {
     assets: datas,
     columns: this.columnData,
+    exportModalView: false,
   };
+
+  componentDidMount() {
+    this.store.dispatch(loadAssets());
+  }
 
   getData = (url) =>
     axios
@@ -90,8 +99,8 @@ class Assets extends Component {
 
   render() {
     // this.getData("http://localhost:3003/api/assets/");
-    const { assets, columns } = this.state;
-
+    console.log(this.state);
+    const { assets, columns, exportModalView } = this.state;
     return (
       <Fragment>
         <TitleBar icon="barcode" title="Assets">
@@ -111,7 +120,6 @@ class Assets extends Component {
           <Button variant="primary" size="xs" className="m-r-xs ">
             <i className="fa fa-columns"></i>
           </Button>
-
           <Button variant="primary" size="xs" className="m-r-xs ">
             <i className="fa fa-filter"></i>
           </Button>
@@ -121,7 +129,12 @@ class Assets extends Component {
           <Button variant="primary" size="xs" className="m-r-xs ">
             <i className="fa fa-upload"></i>
           </Button>
-          <Button variant="primary" size="xs" className="m-r-xs ">
+          <Button
+            variant="primary"
+            size="xs"
+            className="m-r-xs "
+            onClick={() => this.setState({ exportModalView: !exportModalView })}
+          >
             <i className="fa fa-download"></i>
           </Button>
         </TitleBar>
@@ -129,6 +142,9 @@ class Assets extends Component {
           <Row>
             <Table data={assets} columns={columns} primarySort="asset_id" />
           </Row>
+          <ModalComp title="Data Export" show={exportModalView}>
+            {"df"}
+          </ModalComp>
         </PageWrapper>
       </Fragment>
     );

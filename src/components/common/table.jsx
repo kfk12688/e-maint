@@ -67,7 +67,7 @@ class Table extends Component {
               )}
             </Dropdown.Menu>
           </Dropdown> */}
-          <TableComp striped bordered hover className="panel-grey">
+          <TableComp striped bordered hover responsive className="panel-grey">
             <thead>
               <tr>
                 {columns.map((column, index) => (
